@@ -1,0 +1,21 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: RootQueryType
+    mutation: Mutation
+}
+
+type Mutation {
+    login(email: String, password: String): UserType
+    logout: UserType
+    signup(email: String, password: String): UserType
+}
+
+type RootQueryType {
+    user: UserType
+}
+
+type UserType {
+    email: String
+    id: ID
+}
