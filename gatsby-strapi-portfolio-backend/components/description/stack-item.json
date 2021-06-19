@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_description_stack_items",
+  "info": {
+    "name": "stack_item",
+    "icon": "box"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}
