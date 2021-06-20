@@ -1,26 +1,77 @@
-import React from 'react'
-import Layout from '../components/Layout'
-import Hero from '../components/Hero'
-import styled from 'styled-components'
-import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import Banner from '../components/Banner'
-import { graphql } from 'gatsby'
-import { MDXRenderer } from 'gatsby-plugin-mdx'
-const PostTemplate = () => {
-  return <h2>post template</h2>
-}
+import React from "react";
+import Layout from "../components/Layout";
+import Hero from "../components/Hero";
+import styled from "styled-components";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import Banner from "../components/Banner";
+import { graphql } from "gatsby";
+import { MDXRenderer } from "gatsby-plugin-mdx";
 
+const PostTemplate = ({ data }) => {
+  const {
+    mdx: {
+      frontmatter: { title, category, image, date, embeddedImages },
+      body
+    }
+  } = data;
 
+  return (
+    <Layout>
+      <Hero />
+      <Wrapper>
+        {/* post info */}
+        <article>
+          <GatsbyImage
+            image={getImage(image)}
+            alt={title}
+            className="main-img"
+          />
+          <div className="post-info">
+            <span>{category}</span>
+            <h2>{title}</h2>
+            <p>{date}</p>
+            <div className="underline"/>
+          </div>
+          <MDXRenderer embeddedImages={embeddedImages}>{body}</MDXRenderer>
+        </article>
+        {/* banner component */}
+        <article>
+          <Banner />
+        </article>
+      </Wrapper>
+    </Layout>
+  );
+};
+
+export const query = graphql`
+    query GetSinglePost($slug: String = "") {
+        mdx(frontmatter: {slug: {eq: $slug}}) {
+            frontmatter {
+                category
+                date(formatString: "MMMM Do, YYYY")
+                title
+                slug
+                readTime
+                image {
+                    childImageSharp {
+                        gatsbyImageData
+                    }
+                }
+            }
+            body
+        }
+    }
+`;
 
 const Wrapper = styled.section`
   width: 85vw;
   max-width: 1100px;
-  margin: 0 auto;
-  margin-bottom: 4rem;
+  margin: 0 auto 4rem;
 
   .post-info {
     margin: 2rem 0 4rem 0;
     text-align: center;
+
     span {
       background: var(--clr-primary-5);
       color: var(--clr-white);
@@ -29,13 +80,16 @@ const Wrapper = styled.section`
       text-transform: uppercase;
       letter-spacing: var(--spacing);
     }
+
     h2 {
       margin: 1.25rem 0;
       font-weight: 400;
     }
+
     p {
       color: var(--clr-grey-5);
     }
+
     .underline {
       width: 5rem;
       height: 1px;
@@ -44,10 +98,12 @@ const Wrapper = styled.section`
       margin-bottom: 1rem;
     }
   }
+
   @media (min-width: 992px) {
     & {
       width: 92vw;
     }
+
     .main-img {
       width: 75%;
       display: block;
@@ -61,6 +117,6 @@ const Wrapper = styled.section`
       column-gap: 4rem;
     }
   }
-`
+`;
 
-export default PostTemplate
+export default PostTemplate;

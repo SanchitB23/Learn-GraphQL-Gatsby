@@ -1,16 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
-const Title = () => {
+import React from "react";
+import styled from "styled-components";
+
+const Title = ({ title }) => {
   return (
     <Wrapper>
-     Banner Title
+      <h4>{title}</h4>
+      <div className="line" />
     </Wrapper>
-  )
-}
+  );
+};
 const Wrapper = styled.div`
   position: relative;
   text-align: center;
   margin-bottom: 1.25rem;
+
   h4 {
     color: var(--clr-grey-3);
     text-transform: uppercase;
@@ -20,6 +23,7 @@ const Wrapper = styled.div`
     margin-bottom: 0;
     padding: 0 0.6rem;
   }
+
   .line {
     position: absolute;
     top: 50%;
@@ -30,5 +34,5 @@ const Wrapper = styled.div`
     background: var(--clr-primary-5);
     z-index: -1;
   }
-`
-export default Title
+`;
+export default Title;
