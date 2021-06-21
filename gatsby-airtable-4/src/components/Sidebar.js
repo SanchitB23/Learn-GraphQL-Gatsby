@@ -3,10 +3,27 @@ import styled from 'styled-components'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'gatsby'
 import { GatsbyContext } from '../context/context'
+
 const Sidebar = () => {
-  
+  const { links, hideSidebar } = useContext(GatsbyContext)
   return (
-    <h2>sidebar component</h2>)
+    <Wrapper>
+      <div className='container'>
+        <button onClick={hideSidebar}>
+          <MdClose className='icon' />
+        </button>
+        <div className='links'>
+          {links.map((link, index) => {
+            const { url, label, icon } = link
+            return <Link to={url} key={index}>
+              {icon}
+              {label}
+            </Link>
+          })}
+        </div>
+      </div>
+    </Wrapper>
+  )
 }
 const Wrapper = styled.aside`
   position: fixed;
@@ -22,6 +39,7 @@ const Wrapper = styled.aside`
   @media (min-width: 800px) {
     display: none;
   }
+
   .container {
     background: var(--clr-white);
     width: 80vw;
@@ -29,6 +47,7 @@ const Wrapper = styled.aside`
     border-radius: var(--radius);
     position: relative;
     padding: 4rem 2rem 2rem 2rem;
+
     button {
       position: absolute;
       top: 0.5rem;
@@ -39,12 +58,14 @@ const Wrapper = styled.aside`
       cursor: pointer;
       color: var(--clr-grey-5);
     }
+
     .links {
       display: grid;
       gap: 1rem 2rem;
       @media (min-width: 768px) {
         grid-template-columns: 1fr 1fr;
       }
+
       a {
         display: grid;
         grid-template-columns: auto 1fr;
@@ -55,12 +76,15 @@ const Wrapper = styled.aside`
         text-transform: capitalize;
         font-weight: 700;
         font-size: 1.2rem;
+
         .icon {
           color: #88add2;
           font-size: 2rem;
         }
+
         &:hover {
           color: #88add2;
+
           .icon {
             color: #0a2540;
           }

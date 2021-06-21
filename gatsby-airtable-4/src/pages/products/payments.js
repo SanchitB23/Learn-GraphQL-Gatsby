@@ -1,9 +1,18 @@
-import React from "react"
-import { Layout } from "../../components"
-import styled from "styled-components"
-import { Link } from "gatsby"
-const Payments = () => {
-  return <h2>payments page</h2>
+import React from 'react'
+import { Layout } from '../../components'
+import styled from 'styled-components'
+import { Link } from 'gatsby'
+
+const Payments = (props) => {
+  console.log(props)
+  return <Layout>
+    <Wrapper>
+      <div>
+        <h1>path</h1>
+        <Link to='/' className='btn'>home</Link>
+      </div>
+    </Wrapper>
+  </Layout>
 }
 
 const Wrapper = styled.main`
@@ -17,11 +26,13 @@ const Wrapper = styled.main`
     text-align: center;
     color: var(--clr-white);
   }
+
   h1 {
     font-size: 2rem;
     color: var(--clr-primary-5);
     margin-bottom: 1.5rem;
   }
+
   @media (min-width: 800px) {
     h1 {
       font-size: 4rem;

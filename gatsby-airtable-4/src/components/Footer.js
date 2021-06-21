@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <Wrapper>
       <p>
-        &copy; {new Date().getFullYear()} John Smilga. All rights reserved.
+        &copy; {new Date().getFullYear()} SanchitB23. All rights reserved.
         Built with Gatsby
       </p>
     </Wrapper>

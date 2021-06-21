@@ -1,20 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'gatsby'
 import Title from './Title'
 import styled from 'styled-components'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
-import SearchButtons from './SearchButtons'
+import FilterButtons from './FilterButtons'
 
-const Projects = () => {
-  
+const Projects = ({ projects: data, title, page }) => {
+  const [projects, setProjects] = useState(data)
+
+  const setBackToAll = () => {
+    setProjects(data)
+  }
 
   return (
-    <h2>projects</h2>
+    <Wrapper className='section'>
+      <Title title={title || 'projects'} />
+      {page && <FilterButtons projects={data} setProjects={setProjects} setBackToAll={setBackToAll} />}
+      <div className='section-center'>
+        {projects.map((item) => {
+          const { id } = item
+          const { name, type, image } = item.data
+          return <article key={id}>
+            <div className='container'>
+              <GatsbyImage alt='img' image={getImage(image.localFiles[0])} className={name} />
+              <div className='info'>
+                <p>- {type} -</p>
+              </div>
+            </div>
+          </article>
+        })}
+      </div>
+      {!page && <Link to='/projects' className='btn'>all projects</Link>}
+    </Wrapper>
   )
 }
 
 const Wrapper = styled.section`
   background: var(--clr-grey-10);
+
   .section-center {
     margin-top: 4rem;
     max-width: var(--max-width);
@@ -22,28 +45,34 @@ const Wrapper = styled.section`
     gap: 2rem;
     /* safari workaround */
     grid-gap: 2rem;
+
     .img {
       height: 100%;
       border-radius: var(--radius);
       transition: var(--transition);
     }
+
     article {
       box-shadow: var(--light-shadow);
       border-radius: var(--radius);
       transition: var(--transition);
     }
+
     article:hover {
       box-shadow: var(--dark-shadow);
     }
+
     .container {
       height: 15rem;
       position: relative;
       overflow: hidden;
       border-radius: var(--radius);
       background: var(--clr-primary-7);
+
       &:hover .img {
         opacity: 0.2;
       }
+
       .info {
         position: absolute;
         top: 50%;
@@ -54,26 +83,31 @@ const Wrapper = styled.section`
         transition: var(--transition);
         color: var(--clr-white);
         text-align: center;
+
         p {
           margin-bottom: 0.5rem;
           color: var(--clr-white);
           text-transform: uppercase;
         }
       }
+
       &:hover .info {
         opacity: 1;
       }
     }
+
     @media (min-width: 768px) {
       .container {
         height: 15rem;
       }
+
       grid-template-columns: 1fr 1fr;
     }
     @media (min-width: 992px) {
       .container {
         height: 12.5rem;
       }
+
       grid-template-columns: 1fr 1fr 1fr;
     }
     @media (min-width: 1200px) {
@@ -82,12 +116,12 @@ const Wrapper = styled.section`
       }
     }
   }
+
   a {
     display: block;
     width: 9rem;
     text-align: center;
-    margin: 0 auto;
-    margin-top: 3rem;
+    margin: 3rem auto 0;
   }
 `
 export default Projects

@@ -5,9 +5,31 @@ import { GoThreeBars } from 'react-icons/go'
 import { Link } from 'gatsby'
 import NavLink from './NavLink'
 import { GatsbyContext } from '../context/context'
+
 const Navbar = () => {
+  const { isSidebarOpen, showSidebar, links } = useContext(GatsbyContext)
+  const tempLinks = [...new Set(links.map((link) => {
+    return link.page
+  }))]
+  console.log(tempLinks)
   return (
-   <h2>navbar component</h2>
+    <Wrapper>
+      <div className='nav-center'>
+        <div className='nav-header'>
+          <Link to='/'>
+            <img src={logo} alt='logo' />
+          </Link>
+          {!isSidebarOpen &&
+          <button className='toggle-btn' onClick={showSidebar}><GoThreeBars /></button>
+          }
+        </div>
+        <ul className='nav-links'>
+          {tempLinks.map((link, i) => {
+            return <NavLink key={i} page={link}/>
+          })}
+        </ul>
+      </div>
+    </Wrapper>
   )
 }
 
@@ -18,19 +40,23 @@ const Wrapper = styled.nav`
   height: 5rem;
   display: flex;
   align-items: center;
+
   .nav-center {
     width: 90vw;
     margin: 0 auto;
     max-width: var(--max-width);
   }
+
   .nav-header {
     color: var(--clr-white);
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     img {
       width: auto;
     }
+
     .toggle-btn {
       width: 3.5rem;
       height: 2.25rem;
@@ -44,20 +70,24 @@ const Wrapper = styled.nav`
       background: var(--clr-primary-5);
       cursor: pointer;
       transition: var(--transition);
+
       &:hover {
         background: var(--clr-primary-3);
       }
     }
   }
+
   .nav-links {
     display: none;
   }
+
   @media (min-width: 800px) {
     .nav-header {
       .toggle-btn {
         display: none;
       }
     }
+
     .nav-center {
       display: grid;
       grid-template-columns: auto 1fr;
@@ -65,15 +95,18 @@ const Wrapper = styled.nav`
       grid-gap: 0 4rem;
       align-items: center;
     }
+
     .nav-links {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       max-width: 500px;
     }
+
     li {
       padding: 1rem 0;
       position: relative;
     }
+
     button {
       color: var(--clr-white);
       background: transparent;
